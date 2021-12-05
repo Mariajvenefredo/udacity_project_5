@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/storeListFragment">
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.udacity.moonstore.locationreminders.RemindersActivity"
+        android:label="MainActivity" />
+    <fragment
+        android:id="@+id/storeListFragment"
+        android:name="com.udacity.moonstore.storeItems.list.StoreListFragment"
+        android:label="storeListFragment">
+        <action
+            android:id="@+id/to_settings"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/to_storeItemDetails"
+            app:destination="@id/storeItemDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storeItemDetailsFragment"
+        android:name="com.udacity.moonstore.storeItems.details.StoreItemDetailsFragment"
+        android:label="storeItemDetailsFragment">
+        <argument
+            android:name="storeDataItem"
+            app:argType="com.udacity.moonstore.storeItems.StoreDataItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.udacity.moonstore.settings.SettingsFragment"
+        android:label="Settings">
+    </fragment>
+
+</navigation>

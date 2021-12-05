@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/displayOptions"
+        android:title="@string/filter_display">
+        <menu>
+            <item
+                android:id="@+id/myFavoritesMenu"
+                android:title="@string/my_favorites" />
+            <item
+                android:id="@+id/allItemsMenu"
+                android:title="@string/all_items" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/settingsMenu"
+        android:title="@string/settings_label" />
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        app:showAsAction="always" />
+</menu>

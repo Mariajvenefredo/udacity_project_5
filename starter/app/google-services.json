@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1041956582225",
+    "project_id": "moon-store-5f4fe",
+    "storage_bucket": "moon-store-5f4fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041956582225:android:636b4c7c584bb955ed1970",
+        "android_client_info": {
+          "package_name": "com.udacity.moonstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041956582225-p9m7nig4ffmalge1dk4639e495jen06k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.udacity.moonstore",
+            "certificate_hash": "4a1660008ce77bd69cc09ede33f576221fab33a5"
+          }
+        },
+        {
+          "client_id": "1041956582225-1mqcckuhhkng71hdlq59a80fcrtat9fq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEhU7ofho1P6jJFKniKHsKmHf8kfQgt2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041956582225-1mqcckuhhkng71hdlq59a80fcrtat9fq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.udacity.moonstore.storeItems.StoreDataItem" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/offWhite"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/storeitemdetails_picture"
+            android:layout_width="270dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{item.url}" />
+
+        <ImageView
+            android:id="@+id/favorite_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            app:favoriteStatusImage="@{item.markedAsFavorite}"
+            app:layout_constraintEnd_toEndOf="@id/storeitem_picture"
+            app:layout_constraintTop_toTopOf="@id/storeitem_picture"
+            tools:text="Description" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/name_lbl"
+                android:layout_width="@dimen/label_width"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:fontFamily="@font/asap"
+                android:text="@string/name_label"
+                android:textColor="@color/mute_brown"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="@dimen/content_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap"
+                android:textColor="@color/mute_brown"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toEndOf="@id/name_lbl"
+                app:layout_constraintBottom_toBottomOf="@id/name_lbl"
+                android:text="@{item.name}" />
+
+            <TextView
+                android:id="@+id/price_lbl"
+                android:layout_width="@dimen/label_width"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_large"
+                android:fontFamily="@font/asap"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:text="@string/price_label"
+                android:textColor="@color/mute_brown"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/name" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="@dimen/content_width"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/asap"
+                android:textColor="@color/mute_brown"
+                android:textSize="@dimen/text_size_medium"
+                app:layout_constraintStart_toEndOf="@id/price_lbl"
+                app:layout_constraintBottom_toBottomOf="@id/price_lbl"
+                app:priceText="@{item.price}" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</layout>

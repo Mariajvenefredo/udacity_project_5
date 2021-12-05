@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="notificationStatus"
+            type="Boolean" />
+    </data>
+    <LinearLayout
+        android:background="@color/offWhite"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:textAlignment="center"
+            android:fontFamily="@font/asap"
+            android:textColor="@color/mute_brown"
+            android:textSize="@dimen/text_size_large"
+            android:text="@string/your_settings">
+        </TextView>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settingsItem"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:fontFamily="@font/asap"
+            android:checked="@{notificationStatus}"
+            android:text="@string/settings_stock_description"
+            android:textColor="@color/mute_brown"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+
+</layout>
