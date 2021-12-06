@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.moonstore.databinding.StoreItemBinding
 import com.udacity.moonstore.storeItems.FavoriteAnimationHelper
-import com.udacity.moonstore.storeItems.StoreDataItem
+import com.udacity.moonstore.storeItems.StoreItem
 
 class StoreListAdapter(
-    val changeFavoriteStatus: (storeItem: StoreDataItem) -> Unit,
-    val navigateToDetails: (storeItem: StoreDataItem) -> Unit
+    val changeFavoriteStatus: (storeItem: StoreItem) -> Unit,
+    val navigateToDetails: (storeItem: StoreItem) -> Unit
 ) :
-    ListAdapter<StoreDataItem, StoreListAdapter.StoreDataItemGridViewHolder>(
+    ListAdapter<StoreItem, StoreListAdapter.StoreDataItemGridViewHolder>(
         StoreDataItemGridDiffCallback()
     ) {
 
@@ -39,7 +39,7 @@ class StoreListAdapter(
 
     private fun startFavoriteButtonAnimation(
         holder: StoreDataItemGridViewHolder,
-        item: StoreDataItem
+        item: StoreItem
     ) {
         val image = holder.binding.favoriteIcon
         val animator = FavoriteAnimationHelper.createFavoriteAnimator(image, item.markedAsFavorite)
@@ -53,22 +53,22 @@ class StoreListAdapter(
     inner class StoreDataItemGridViewHolder(var binding: StoreItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: StoreDataItem) {
+        fun bind(item: StoreItem) {
             binding.item = item
             binding.executePendingBindings()
         }
     }
 
-    private class StoreDataItemGridDiffCallback : DiffUtil.ItemCallback<StoreDataItem>() {
+    private class StoreDataItemGridDiffCallback : DiffUtil.ItemCallback<StoreItem>() {
 
         override fun areItemsTheSame(
-            oldItem: StoreDataItem,
-            newItem: StoreDataItem
+            oldItem: StoreItem,
+            newItem: StoreItem
         ): Boolean = oldItem == newItem
 
         override fun areContentsTheSame(
-            oldItem: StoreDataItem,
-            newItem: StoreDataItem
+            oldItem: StoreItem,
+            newItem: StoreItem
         ): Boolean = oldItem.name == newItem.name
 
     }

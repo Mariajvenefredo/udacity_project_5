@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.udacity.moonstore.storeItems.StoreDataItem" />
+            type="com.udacity.moonstore.storeItems.StoreItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

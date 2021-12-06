@@ -1,13 +1,20 @@
 package com.udacity.moonstore.data
 
 import com.udacity.moonstore.api.StoreItemFilter
-import com.udacity.moonstore.storeItems.StoreDataItem
+import com.udacity.moonstore.api.models.Store
+import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.data.local.Result
 
 /**
  * Main entry point for accessing reminders data.
  */
 interface StoreDataSource {
-    suspend fun addStoreInformationToDatabase()
-    suspend fun getStoreItems(storeItemFilter: StoreItemFilter): List<StoreDataItem>
-    suspend fun updateFavoriteStatus(storeItem: StoreDataItem)
+    suspend fun addStoreItemsToDatabase()
+    suspend fun addStoresToDatabase()
+    suspend fun getStoreItems(storeItemFilter: StoreItemFilter): List<StoreItem>
+    suspend fun updateFavoriteStatus(storeItem: StoreItem)
+    suspend fun getStoresWithStockForItem(storeItem: StoreItem): List<Store>
+    suspend fun getStores(): List<Store>
+    suspend fun getStoreStockForItem(storeID: String, storeItemID: String): Boolean
+    suspend fun getStore(storeId: String): Store
 }

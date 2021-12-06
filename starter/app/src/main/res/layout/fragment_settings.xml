@@ -33,6 +33,33 @@
             android:text="@string/settings_stock_description"
             android:textColor="@color/mute_brown"
             android:textSize="@dimen/text_size_medium" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:textAlignment="center"
+            android:fontFamily="@font/asap"
+            android:textColor="@color/mute_brown"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/how_notifications_work">
+        </TextView>
+        <ImageView
+            android:layout_width="340dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:src="@drawable/explanation" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:fontFamily="@font/asap"
+            android:textColor="@color/mute_brown"
+            android:textSize="@dimen/text_size_medium"
+            android:text="@string/notification_long_explanation">
+        </TextView>
     </LinearLayout>
-
 </layout>

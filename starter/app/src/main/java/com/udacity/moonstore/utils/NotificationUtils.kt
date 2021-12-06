@@ -9,12 +9,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.udacity.moonstore.BuildConfig
 import com.udacity.moonstore.R
-import com.udacity.moonstore.locationreminders.ReminderDescriptionActivity
-import com.udacity.moonstore.storeItems.StoreDataItem
+import com.udacity.moonstore.api.models.Store
+import com.udacity.moonstore.locationreminders.ItemsInStockActivity
+import com.udacity.moonstore.storeItems.StoreItem
 
 private const val NOTIFICATION_CHANNEL_ID = BuildConfig.APPLICATION_ID + ".channel"
 
-fun sendNotification(context: Context, storeDataItem: StoreDataItem) {
+fun sendNotification(context: Context, store: Store, storeItems: List<StoreItem>) {
     val notificationManager = context
         .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -31,19 +32,18 @@ fun sendNotification(context: Context, storeDataItem: StoreDataItem) {
         notificationManager.createNotificationChannel(channel)
     }
 
-    val intent = ReminderDescriptionActivity.newIntent(context.applicationContext, storeDataItem)
+    val intent = ItemsInStockActivity.newIntent(context.applicationContext, store, storeItems)
 
-    //create a pending intent that opens ReminderDescriptionActivity when the user clicks on the notification
     val stackBuilder = TaskStackBuilder.create(context)
-        .addParentStack(ReminderDescriptionActivity::class.java)
+        .addParentStack(ItemsInStockActivity::class.java)
         .addNextIntent(intent)
     val notificationPendingIntent = stackBuilder
         .getPendingIntent(getUniqueId(), PendingIntent.FLAG_UPDATE_CURRENT)
 
 //    build the notification object with the data to be shown
     val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-        .setSmallIcon(R.mipmap.moonstore_launcher)
-        .setContentTitle(storeDataItem.name)
+        .setSmallIcon(R.mipmap.moonstore_launcher_round)
+        .setContentTitle(store.name)
         //.setContentText(storeDataItem.location)
         .setContentIntent(notificationPendingIntent)
         .setAutoCancel(true)

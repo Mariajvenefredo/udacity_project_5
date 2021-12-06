@@ -5,7 +5,7 @@
     app:startDestination="@id/storeListFragment">
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.udacity.moonstore.locationreminders.RemindersActivity"
+        android:name="com.udacity.moonstore.storeItems.StoreActivity"
         android:label="MainActivity" />
     <fragment
         android:id="@+id/storeListFragment"
@@ -24,12 +24,11 @@
         android:label="storeItemDetailsFragment">
         <argument
             android:name="storeDataItem"
-            app:argType="com.udacity.moonstore.storeItems.StoreDataItem" />
+            app:argType="com.udacity.moonstore.storeItems.StoreItem" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.udacity.moonstore.settings.SettingsFragment"
         android:label="Settings">
     </fragment>
-
 </navigation>

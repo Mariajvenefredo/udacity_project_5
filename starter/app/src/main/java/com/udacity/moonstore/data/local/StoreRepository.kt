@@ -3,9 +3,10 @@ package com.udacity.moonstore.data.local
 import com.udacity.moonstore.api.API_KEY
 import com.udacity.moonstore.api.StoreApi
 import com.udacity.moonstore.api.StoreItemFilter
+import com.udacity.moonstore.api.models.Store
 import com.udacity.moonstore.data.StoreDataSource
 import com.udacity.moonstore.data.dao.OnlineStoreDao
-import com.udacity.moonstore.storeItems.StoreDataItem
+import com.udacity.moonstore.storeItems.StoreItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,7 +16,7 @@ class StoreRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : StoreDataSource {
 
-    override suspend fun addStoreInformationToDatabase() =
+    override suspend fun addStoreItemsToDatabase() =
         withContext(ioDispatcher) {
             val storedItemsList = onlineStoreDao.getFavoriteItems().toMutableList()
             val storeOnlineItems =
@@ -23,6 +24,7 @@ class StoreRepository(
                     .map { piece ->
                         piece.toStoreItemDTO()
                     }
+            //this step is done so that we do not lose favorite items
             storeOnlineItems.forEach { onlineItem ->
                 val isFavorite =
                     storedItemsList.firstOrNull { localItem -> localItem.id == onlineItem.id }
@@ -30,10 +32,21 @@ class StoreRepository(
                     onlineItem.markedAsFavorite = true
                 }
             }
+
             onlineStoreDao.insertStoreItems(*storeOnlineItems.toTypedArray())
         }
 
-    override suspend fun getStoreItems(storeItemFilter: StoreItemFilter): List<StoreDataItem> =
+    override suspend fun addStoresToDatabase() =
+        withContext(ioDispatcher) {
+            val stores = StoreApi.retrofitService.getStores(API_KEY)
+                .map { store ->
+                    store.toPhysicalStoreDTO()
+                }
+
+            onlineStoreDao.insertStores(*stores.toTypedArray())
+        }
+
+    override suspend fun getStoreItems(storeItemFilter: StoreItemFilter): List<StoreItem> =
         withContext(ioDispatcher) {
             if (storeItemFilter == StoreItemFilter.ALL) {
                 onlineStoreDao.getStoreItems().map { storeItemDTO ->
@@ -46,10 +59,41 @@ class StoreRepository(
             }
         }
 
-    override suspend fun updateFavoriteStatus(storeItem: StoreDataItem) =
+    override suspend fun updateFavoriteStatus(storeItem: StoreItem) =
         withContext(ioDispatcher)
         {
             onlineStoreDao.insertStoreItem(storeItem.toStoreItemDTO())
+        }
+
+    override suspend fun getStoresWithStockForItem(storeItem: StoreItem): List<Store> =
+        withContext(ioDispatcher)
+        {
+            StoreApi.retrofitService.getPieceStock(storeItem.id.toString(), API_KEY)
+        }
+
+    override suspend fun getStoreStockForItem(storeID: String, storeItemID: String): Boolean =
+        withContext(ioDispatcher)
+        {
+            val result =
+                StoreApi.retrofitService.getStoreStockForPiece(storeID, storeItemID, API_KEY)
+            if (result == "true") {
+                return@withContext true
+            }
+            return@withContext false
+        }
+
+    override suspend fun getStore(storeId: String): Store =
+        withContext(ioDispatcher)
+        {
+            onlineStoreDao.getStore(storeId.toLong()).toStore()
+        }
+
+    override suspend fun getStores(): List<Store> =
+        withContext(ioDispatcher)
+        {
+            onlineStoreDao.getPhysicalStores().map { physicalStoreDTO ->
+                physicalStoreDTO.toStore()
+            }
         }
 
 /*    suspend fun addAsteroidsToDatabase() {

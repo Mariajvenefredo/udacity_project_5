@@ -1,11 +1,15 @@
 package com.udacity.moonstore.data
 
+import android.app.Activity
 import android.content.Context
 import androidx.fragment.app.FragmentActivity
 
 object StockNotificationHelper {
 
-    fun setStockNotificationPreference(activity: FragmentActivity, answer: StockNotificationStatus) {
+    fun setStockNotificationPreference(
+        activity: Activity,
+        answer: StockNotificationStatus
+    ) {
         val sharedPref = activity.getPreferences(Context.MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
             putString(STOCK_NOFIF_KEY, answer.name)
@@ -23,6 +27,7 @@ object StockNotificationHelper {
 
     private const val STOCK_NOFIF_KEY = "STOCK_NOTFIF"
 }
+
 enum class StockNotificationStatus {
     NEVER_DEFINED,
     NOTIF_ON,

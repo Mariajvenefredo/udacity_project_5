@@ -35,7 +35,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 @BindingAdapter("dataList")
-fun bindRecyclerView(recyclerView: RecyclerView, data: List<StoreDataItem>?) {
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<StoreItem>?) {
     val adapter = recyclerView.adapter as StoreListAdapter
     adapter.submitList(data)
 }

@@ -13,22 +13,29 @@ class StoreListViewModel(
     private val dataSource: StoreDataSource
 ) : BaseViewModel(app) {
 
-    val storeItemList = MutableLiveData<List<StoreDataItem>>()
+    val storeItemList = MutableLiveData<List<StoreItem>>()
+    val storesWithStock = MutableLiveData<String>()
     private val filter = MutableLiveData(StoreItemFilter.ALL)
 
     init {
         viewModelScope.launch {
-            dataSource.addStoreInformationToDatabase()
+            dataSource.addStoreItemsToDatabase()
+            loadStoreItems()
         }
     }
 
     fun loadStoreItems() {
         showLoading.value = true
         viewModelScope.launch {
-            //interacting with the dataSource has to be through a coroutine
+
             val result = filter.value?.let { dataSource.getStoreItems(it) }
-            storeItemList.value = result!!
-            showLoading.value = false
+            if (result != null) {
+                if (result.isNotEmpty()) {
+                    storeItemList.value = result!!
+                    showLoading.value = false
+                }
+            }
+
 /*            when (result) {
                 is Result.Success<*> -> {
                     val dataList = ArrayList<StoreDataItem>()
@@ -61,13 +68,23 @@ class StoreListViewModel(
         showNoData.value = storeItemList.value == null || storeItemList.value!!.isEmpty()
     }
 
+    fun getStoresWithStock(storeItem: StoreItem) {
+        val storeList = mutableListOf<String>()
+        viewModelScope.launch {
+            dataSource.getStoresWithStockForItem(storeItem).map { store ->
+                storeList.add(store.name)
+            }
+            storesWithStock.value = storeList.joinToString("\n-", "-")
+        }
+    }
+
     fun updateFilter(filtered: StoreItemFilter) =
         viewModelScope.launch {
             filter.value = filtered
             loadStoreItems()
         }
 
-    fun changeFavoriteStatus(storeItem: StoreDataItem) {
+    fun changeFavoriteStatus(storeItem: StoreItem) {
         viewModelScope.launch {
 
             storeItem.markedAsFavorite = !storeItem.markedAsFavorite

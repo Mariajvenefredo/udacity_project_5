@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.PointOfInterest
 import com.udacity.moonstore.R
 import com.udacity.moonstore.base.BaseViewModel
-import com.udacity.moonstore.storeItems.StoreDataItem
+import com.udacity.moonstore.storeItems.StoreItem
 
 class SaveReminderViewModel(
     val app: Application,
@@ -52,9 +52,9 @@ class SaveReminderViewModel(
     /**
      * Validate the entered data then saves the reminder data to the DataSource
      */
-    fun validateAndSaveReminder(storeData: StoreDataItem): Boolean {
-        if (validateEnteredData(storeData)) {
-            saveReminder(storeData)
+    fun validateAndSaveReminder(store: StoreItem): Boolean {
+        if (validateEnteredData(store)) {
+            saveReminder(store)
             return true
         }
         return false
@@ -63,7 +63,7 @@ class SaveReminderViewModel(
     /**
      * Save the reminder to the data source
      */
-    fun saveReminder(storeData: StoreDataItem) {
+    fun saveReminder(store: StoreItem) {
         showLoading.value = true
 /*        viewModelScope.launch {
             dataSource.saveReminder(
@@ -85,8 +85,8 @@ class SaveReminderViewModel(
     /**
      * Validate the entered data and show error to the user if there's any invalid data
      */
-    fun validateEnteredData(storeData: StoreDataItem): Boolean {
-        if (storeData.name.isNullOrEmpty()) {
+    fun validateEnteredData(store: StoreItem): Boolean {
+        if (store.name.isNullOrEmpty()) {
             showSnackBarInt.value = R.string.err_enter_title
             return false
         }

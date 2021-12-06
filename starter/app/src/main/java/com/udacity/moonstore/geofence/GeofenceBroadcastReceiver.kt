@@ -1,4 +1,4 @@
-package com.udacity.moonstore.locationreminders.geofence
+package com.udacity.moonstore.geofence
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -19,13 +19,13 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
     private val myhelper: MyHelper by lazy { MyHelper() }
 
     override fun onReceive(context: Context, intent: Intent) {
-        myhelper.onReceive(context, intent)
+       myhelper.onReceive(context, intent)
     }
 }
 
 class MyHelper : KoinComponent {
 
     fun onReceive(context: Context, intent: Intent) {
-        //GeofenceTransitionsJobIntentService.enqueueWork(context, intent)
+        GeofenceTransitionsJobIntentService.enqueueWork(context, intent)
     }
 }

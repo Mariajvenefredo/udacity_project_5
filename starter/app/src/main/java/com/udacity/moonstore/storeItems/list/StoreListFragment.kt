@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.udacity.moonstore.R
@@ -20,9 +21,10 @@ import com.udacity.moonstore.authentication.AuthenticationActivity
 import com.udacity.moonstore.authentication.AuthenticationHelper
 import com.udacity.moonstore.base.BaseFragment
 import com.udacity.moonstore.data.StockNotificationHelper.getStockNotificationPreference
-import com.udacity.moonstore.data.StockNotificationHelper.setStockNotificationPreference
 import com.udacity.moonstore.data.StockNotificationStatus
 import com.udacity.moonstore.databinding.FragmentStoreListBinding
+import com.udacity.moonstore.storeItems.StoreViewModel
+import com.udacity.moonstore.storeItems.StoreActivity
 import com.udacity.moonstore.storeItems.StoreListViewModel
 import com.udacity.moonstore.utils.setDisplayHomeAsUpEnabled
 import com.udacity.moonstore.utils.setTitle
@@ -31,6 +33,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class StoreListFragment : BaseFragment() {
 
     override val _viewModel: StoreListViewModel by viewModel()
+    private lateinit var storeViewModel: StoreViewModel
+
     private lateinit var binding: FragmentStoreListBinding
     private lateinit var navController: NavController
 
@@ -44,6 +48,8 @@ class StoreListFragment : BaseFragment() {
                 R.layout.fragment_store_list, container, false
             )
         binding.viewModel = _viewModel
+        storeViewModel =
+            ViewModelProvider(requireActivity() as StoreActivity)[StoreViewModel::class.java]
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(false)
@@ -77,12 +83,18 @@ class StoreListFragment : BaseFragment() {
                 context,
                 getString(R.string.notif_on), Toast.LENGTH_SHORT
             ).show()
-            setStockNotificationPreference(requireActivity(), StockNotificationStatus.NOTIF_ON)
+            storeViewModel.updateStockNotificationStatus(
+                requireActivity(),
+                StockNotificationStatus.NOTIF_ON
+            )
         }
 
         builder.setNegativeButton(getString(R.string.no)) { _, _ ->
             showDefineNotifLaterDialog()
-            setStockNotificationPreference(requireActivity(), StockNotificationStatus.NOTIF_OFF)
+            storeViewModel.updateStockNotificationStatus(
+                requireActivity(),
+                StockNotificationStatus.NOTIF_OFF
+            )
         }
         builder.show()
     }

@@ -6,7 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.udacity.moonstore.R
-import com.udacity.moonstore.locationreminders.RemindersActivity
+import com.udacity.moonstore.storeItems.StoreActivity
 
 /**
  * This class should be the starting point of the app, It asks the users to sign in / register, and redirects the
@@ -31,7 +31,7 @@ class AuthenticationActivity : AppCompatActivity() {
     }
 
     private fun startRemindersActivity() {
-        val intent = Intent(this, RemindersActivity::class.java)
+        val intent = Intent(this, StoreActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
     }
