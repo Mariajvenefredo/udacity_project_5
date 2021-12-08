@@ -3,7 +3,7 @@ package com.udacity.moonstore.data.dto
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.storeItems.models.StoreItem
 
 @Entity(tableName = "storeItems")
 class StoreItemDTO(

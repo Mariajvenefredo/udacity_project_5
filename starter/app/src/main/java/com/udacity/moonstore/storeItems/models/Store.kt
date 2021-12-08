@@ -1,4 +1,4 @@
-package com.udacity.moonstore.api.models
+package com.udacity.moonstore.storeItems.models
 
 import android.os.Parcelable
 import com.udacity.moonstore.data.dto.PhysicalStoreDTO

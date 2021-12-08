@@ -26,6 +26,6 @@ class GeofenceBroadcastReceiver : BroadcastReceiver() {
 class MyHelper : KoinComponent {
 
     fun onReceive(context: Context, intent: Intent) {
-        GeofenceTransitionsJobIntentService.enqueueWork(context, intent)
+        GeofenceJobIntentService.enqueueWork(context, intent)
     }
 }

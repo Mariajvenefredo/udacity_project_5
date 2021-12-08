@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.udacity.moonstore.storeItems.StoreItem" />
+            type="com.udacity.moonstore.storeItems.models.StoreItem" />
     </data>
 
     <LinearLayout

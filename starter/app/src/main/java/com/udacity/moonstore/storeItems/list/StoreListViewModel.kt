@@ -1,4 +1,4 @@
-package com.udacity.moonstore.storeItems
+package com.udacity.moonstore.storeItems.list
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.udacity.moonstore.api.StoreItemFilter
 import com.udacity.moonstore.base.BaseViewModel
 import com.udacity.moonstore.data.StoreDataSource
+import com.udacity.moonstore.storeItems.models.StoreItem
 import kotlinx.coroutines.launch
 
 class StoreListViewModel(

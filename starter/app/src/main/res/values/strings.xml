@@ -64,6 +64,7 @@
     <string name="name_label">Name:</string>
     <string name="stores_with_stock_label">Stores with stock:</string>
     <string name="how_notifications_work">How our pass-by notifications work</string>
-    <string name="notification_long_explanation">Everytime you pass by a store that has one of your favorite items in stock, we will send you a notification to your phone, so that you can have the opportunity to buy the items you want without having to always remember to go check it by yourself! We want to make shopping an easier experience for you, so you can focus on having fun only 🌒</string>
-
+    <string name="settings_notification_long_explanation">Everytime you pass by a store that has one of your favorite items in stock, we will send you a notification to your phone, so that you can have the opportunity to buy the items you want without having to always remember to go check it by yourself! We want to make shopping an easier experience for you, so you can focus on having fun only 🌒</string>
+    <string name="notification_screen_description">Hey, your favorite items are in stock in a store nearby! Go in and check it out, it is now your opportunity to buy it!\n Happy Shopping! 🌒</string>
+    <string name="store_lbl">Store:</string>
 </resources>

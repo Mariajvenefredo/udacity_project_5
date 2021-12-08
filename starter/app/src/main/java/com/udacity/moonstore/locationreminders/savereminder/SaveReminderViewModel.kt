@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.maps.model.PointOfInterest
 import com.udacity.moonstore.R
 import com.udacity.moonstore.base.BaseViewModel
-import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.storeItems.models.StoreItem
 
 class SaveReminderViewModel(
     val app: Application,

@@ -1,9 +1,8 @@
 package com.udacity.moonstore.data
 
 import com.udacity.moonstore.api.StoreItemFilter
-import com.udacity.moonstore.api.models.Store
-import com.udacity.moonstore.storeItems.StoreItem
-import com.udacity.moonstore.data.local.Result
+import com.udacity.moonstore.storeItems.models.Store
+import com.udacity.moonstore.storeItems.models.StoreItem
 
 /**
  * Main entry point for accessing reminders data.

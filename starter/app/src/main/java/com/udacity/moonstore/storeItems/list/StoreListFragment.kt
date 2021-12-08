@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -25,7 +26,6 @@ import com.udacity.moonstore.data.StockNotificationStatus
 import com.udacity.moonstore.databinding.FragmentStoreListBinding
 import com.udacity.moonstore.storeItems.StoreViewModel
 import com.udacity.moonstore.storeItems.StoreActivity
-import com.udacity.moonstore.storeItems.StoreListViewModel
 import com.udacity.moonstore.utils.setDisplayHomeAsUpEnabled
 import com.udacity.moonstore.utils.setTitle
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -126,7 +126,8 @@ class StoreListFragment : BaseFragment() {
         val adapter = StoreListAdapter({ storeItem ->
             _viewModel.changeFavoriteStatus(storeItem)
         }, { storeItem ->
-            navController.navigate(StoreListFragmentDirections.toStoreItemDetails(storeItem))
+            val bundle = bundleOf("storeItem" to storeItem)
+            navController.navigate(R.id.to_storeItemDetails, bundle)
         })
 
         binding.storeRecyclerView.adapter = adapter

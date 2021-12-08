@@ -22,9 +22,6 @@
         android:id="@+id/storeItemDetailsFragment"
         android:name="com.udacity.moonstore.storeItems.details.StoreItemDetailsFragment"
         android:label="storeItemDetailsFragment">
-        <argument
-            android:name="storeDataItem"
-            app:argType="com.udacity.moonstore.storeItems.StoreItem" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

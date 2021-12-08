@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.udacity.moonstore.api.models.Store
 import com.udacity.moonstore.data.dto.PhysicalStoreDTO
 import com.udacity.moonstore.data.dto.StoreItemDTO
 

@@ -3,10 +3,10 @@ package com.udacity.moonstore.data.local
 import com.udacity.moonstore.api.API_KEY
 import com.udacity.moonstore.api.StoreApi
 import com.udacity.moonstore.api.StoreItemFilter
-import com.udacity.moonstore.api.models.Store
+import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.data.StoreDataSource
 import com.udacity.moonstore.data.dao.OnlineStoreDao
-import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.storeItems.models.StoreItem
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="item"
-            type="com.udacity.moonstore.storeItems.StoreItem" />
+            type="com.udacity.moonstore.storeItems.models.StoreItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="@dimen/margin_normal"
-        >
+        android:layout_marginEnd="@dimen/margin_normal">
 
         <ImageView
             android:id="@+id/storeitem_picture"
@@ -35,8 +35,8 @@
             android:textColor="@color/mute_brown"
             android:textSize="@dimen/text_size_medium"
             app:layout_constraintStart_toStartOf="@+id/storeitem_picture"
-            app:layout_constraintTop_toBottomOf="@+id/storeitem_picture"
-            tools:text="Title" />
+            app:layout_constraintTop_toBottomOf="@+id/storeitem_picture" />
+
         <TextView
             android:id="@+id/price"
             android:layout_width="wrap_content"
@@ -44,9 +44,10 @@
             android:fontFamily="@font/asap"
             android:textColor="@color/mute_brown"
             android:textSize="@dimen/text_size_medium"
-            app:priceText="@{item.price}"
             app:layout_constraintEnd_toEndOf="@+id/storeitem_picture"
-            app:layout_constraintTop_toBottomOf="@+id/storeitem_picture" />
+            app:layout_constraintTop_toBottomOf="@+id/storeitem_picture"
+            app:priceText="@{item.price}" />
+
         <ImageView
             android:id="@+id/favorite_icon"
             android:layout_width="30dp"
@@ -54,8 +55,8 @@
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginEnd="@dimen/margin_small"
             app:favoriteStatusImage="@{item.markedAsFavorite}"
-            app:layout_constraintTop_toTopOf="@id/storeitem_picture"
             app:layout_constraintEnd_toEndOf="@id/storeitem_picture"
+            app:layout_constraintTop_toTopOf="@id/storeitem_picture"
             tools:text="Description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -59,7 +59,7 @@
             android:fontFamily="@font/asap"
             android:textColor="@color/mute_brown"
             android:textSize="@dimen/text_size_medium"
-            android:text="@string/notification_long_explanation">
+            android:text="@string/settings_notification_long_explanation">
         </TextView>
     </LinearLayout>
 </layout>

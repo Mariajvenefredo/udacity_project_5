@@ -6,7 +6,7 @@ import com.udacity.moonstore.data.local.StoreDatabase
 import com.udacity.moonstore.data.local.StoreRepository
 import com.udacity.moonstore.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.moonstore.storeItems.StoreViewModel
-import com.udacity.moonstore.storeItems.StoreListViewModel
+import com.udacity.moonstore.storeItems.list.StoreListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin

@@ -3,8 +3,8 @@ package com.udacity.moonstore.api
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.udacity.moonstore.api.models.Store
-import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.storeItems.models.Store
+import com.udacity.moonstore.storeItems.models.StoreItem
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

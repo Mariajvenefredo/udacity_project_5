@@ -9,9 +9,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.udacity.moonstore.BuildConfig
 import com.udacity.moonstore.R
-import com.udacity.moonstore.api.models.Store
-import com.udacity.moonstore.locationreminders.ItemsInStockActivity
-import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.storeItems.models.Store
+import com.udacity.moonstore.storeItems.notification.ItemsInStockNotificationActivity
+import com.udacity.moonstore.storeItems.models.StoreItem
 
 private const val NOTIFICATION_CHANNEL_ID = BuildConfig.APPLICATION_ID + ".channel"
 
@@ -32,10 +32,10 @@ fun sendNotification(context: Context, store: Store, storeItems: List<StoreItem>
         notificationManager.createNotificationChannel(channel)
     }
 
-    val intent = ItemsInStockActivity.newIntent(context.applicationContext, store, storeItems)
+    val intent = ItemsInStockNotificationActivity.newIntent(context.applicationContext, store, storeItems)
 
     val stackBuilder = TaskStackBuilder.create(context)
-        .addParentStack(ItemsInStockActivity::class.java)
+        .addParentStack(ItemsInStockNotificationActivity::class.java)
         .addNextIntent(intent)
     val notificationPendingIntent = stackBuilder
         .getPendingIntent(getUniqueId(), PendingIntent.FLAG_UPDATE_CURRENT)

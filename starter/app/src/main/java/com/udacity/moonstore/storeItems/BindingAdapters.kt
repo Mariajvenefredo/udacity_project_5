@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.udacity.moonstore.R
 import com.udacity.moonstore.storeItems.list.StoreListAdapter
+import com.udacity.moonstore.storeItems.models.StoreItem
 
 @BindingAdapter("favoriteStatusImage")
 fun bindDetailsStatusImage(imageView: ImageView, markedAsFavorite: Boolean) {

@@ -1,56 +1,37 @@
-package com.udacity.moonstore.storeItems.list
+package com.udacity.moonstore.storeItems.notification
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.animation.doOnEnd
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.moonstore.databinding.StoreItemBinding
-import com.udacity.moonstore.storeItems.FavoriteAnimationHelper
+import com.udacity.moonstore.databinding.StoreShortItemBinding
 import com.udacity.moonstore.storeItems.models.StoreItem
 
-class StoreListAdapter(
-    val changeFavoriteStatus: (storeItem: StoreItem) -> Unit,
+class StockItemListAdapter(
     val navigateToDetails: (storeItem: StoreItem) -> Unit
 ) :
-    ListAdapter<StoreItem, StoreListAdapter.StoreDataItemGridViewHolder>(
-        StoreDataItemGridDiffCallback()
+    ListAdapter<StoreItem, StockItemListAdapter.StoreDataItemGridViewHolder>(
+        StoreDataItemDiffCallback()
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreDataItemGridViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return StoreDataItemGridViewHolder(
-            StoreItemBinding.inflate(inflater)
+            StoreShortItemBinding.inflate(inflater)
         )
     }
 
     override fun onBindViewHolder(holder: StoreDataItemGridViewHolder, position: Int) {
         getItem(position).let { item ->
-            holder.binding.favoriteIcon.setOnClickListener {
-                startFavoriteButtonAnimation(holder, item)
-            }
-            holder.binding.storeitemPicture.setOnClickListener {
+            holder.binding.layoutShortitem.setOnClickListener {
                 navigateToDetails(item)
             }
             holder.bind(item)
         }
     }
 
-    private fun startFavoriteButtonAnimation(
-        holder: StoreDataItemGridViewHolder,
-        item: StoreItem
-    ) {
-        val image = holder.binding.favoriteIcon
-        val animator = FavoriteAnimationHelper.createFavoriteAnimator(image, item.markedAsFavorite)
-
-        animator.doOnEnd {
-            changeFavoriteStatus(item)
-        }
-        animator.start()
-    }
-
-    inner class StoreDataItemGridViewHolder(var binding: StoreItemBinding) :
+    inner class StoreDataItemGridViewHolder(var binding: StoreShortItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: StoreItem) {
@@ -59,7 +40,7 @@ class StoreListAdapter(
         }
     }
 
-    private class StoreDataItemGridDiffCallback : DiffUtil.ItemCallback<StoreItem>() {
+    private class StoreDataItemDiffCallback : DiffUtil.ItemCallback<StoreItem>() {
 
         override fun areItemsTheSame(
             oldItem: StoreItem,

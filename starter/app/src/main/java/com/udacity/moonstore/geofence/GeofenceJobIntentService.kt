@@ -7,7 +7,7 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.udacity.moonstore.api.StoreItemFilter
 import com.udacity.moonstore.data.StoreDataSource
-import com.udacity.moonstore.storeItems.StoreItem
+import com.udacity.moonstore.storeItems.models.StoreItem
 import com.udacity.moonstore.utils.sendNotification
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.CoroutineContext
 
-class GeofenceTransitionsJobIntentService(
+class GeofenceJobIntentService(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) :
     JobIntentService(), CoroutineScope {
@@ -37,7 +37,7 @@ class GeofenceTransitionsJobIntentService(
         fun enqueueWork(context: Context, intent: Intent) {
             enqueueWork(
                 context,
-                GeofenceTransitionsJobIntentService::class.java, JOB_ID,
+                GeofenceJobIntentService::class.java, JOB_ID,
                 intent
             )
         }
@@ -84,7 +84,7 @@ class GeofenceTransitionsJobIntentService(
 
             if (result != null) {//is Result.Success<Store>) {
                 sendNotification(
-                    this@GeofenceTransitionsJobIntentService,
+                    this@GeofenceJobIntentService,
                     result,
                     itemsInStock
                 )

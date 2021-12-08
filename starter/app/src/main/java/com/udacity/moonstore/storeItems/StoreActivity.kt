@@ -32,16 +32,13 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.moonstore.BuildConfig
 import com.udacity.moonstore.R
-import com.udacity.moonstore.api.models.Store
+import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.data.StockNotificationStatus
 import com.udacity.moonstore.geofence.GeofenceBroadcastReceiver
-import kotlinx.android.synthetic.main.activity_reminders.*
+import kotlinx.android.synthetic.main.activity_store.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
-/**
- * The RemindersActivity that holds the reminders fragments
- */
 class StoreActivity : AppCompatActivity() {
 
     private val storeViewModel: StoreViewModel by viewModel()
@@ -92,7 +89,7 @@ class StoreActivity : AppCompatActivity() {
                 }
             }
         }
-        setContentView(R.layout.activity_reminders)
+        setContentView(R.layout.activity_store)
     }
 
     private fun registerForActivityResult() = registerForActivityResult(
