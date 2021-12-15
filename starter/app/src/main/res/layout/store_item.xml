@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/storeItemTitle"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/asap"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toBottomOf="@+id/storeitem_picture" />
 
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/storeItemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/asap"
@@ -49,7 +49,7 @@
             app:priceText="@{item.price}" />
 
         <ImageView
-            android:id="@+id/favorite_icon"
+            android:id="@+id/storeItemFavoriteIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="@dimen/margin_small"

@@ -27,7 +27,7 @@ class StoreListAdapter(
 
     override fun onBindViewHolder(holder: StoreDataItemGridViewHolder, position: Int) {
         getItem(position).let { item ->
-            holder.binding.favoriteIcon.setOnClickListener {
+            holder.binding.storeItemFavoriteIcon.setOnClickListener {
                 startFavoriteButtonAnimation(holder, item)
             }
             holder.binding.storeitemPicture.setOnClickListener {
@@ -41,7 +41,7 @@ class StoreListAdapter(
         holder: StoreDataItemGridViewHolder,
         item: StoreItem
     ) {
-        val image = holder.binding.favoriteIcon
+        val image = holder.binding.storeItemFavoriteIcon
         val animator = FavoriteAnimationHelper.createFavoriteAnimator(image, item.markedAsFavorite)
 
         animator.doOnEnd {

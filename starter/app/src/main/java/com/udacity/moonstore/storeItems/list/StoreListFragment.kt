@@ -21,6 +21,7 @@ import com.udacity.moonstore.api.StoreItemFilter
 import com.udacity.moonstore.authentication.AuthenticationActivity
 import com.udacity.moonstore.authentication.AuthenticationHelper
 import com.udacity.moonstore.base.BaseFragment
+import com.udacity.moonstore.data.StockNotificationHelper
 import com.udacity.moonstore.data.StockNotificationHelper.getStockNotificationPreference
 import com.udacity.moonstore.data.StockNotificationStatus
 import com.udacity.moonstore.databinding.FragmentStoreListBinding
@@ -36,7 +37,6 @@ class StoreListFragment : BaseFragment() {
     private lateinit var storeViewModel: StoreViewModel
 
     private lateinit var binding: FragmentStoreListBinding
-    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +48,15 @@ class StoreListFragment : BaseFragment() {
                 R.layout.fragment_store_list, container, false
             )
         binding.viewModel = _viewModel
-        storeViewModel =
-            ViewModelProvider(requireActivity() as StoreActivity)[StoreViewModel::class.java]
+
+        if (requireActivity() is StoreActivity) {
+            storeViewModel =
+                ViewModelProvider(requireActivity() as StoreActivity)[StoreViewModel::class.java]
+        }
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(false)
         setTitle(getString(R.string.app_name))
-        navController = findNavController()
 
         _viewModel.showLoading.observe(this, { showLoading ->
             binding.refreshLayout.isRefreshing = showLoading
@@ -64,7 +66,7 @@ class StoreListFragment : BaseFragment() {
             _viewModel.loadStoreItems()
         }
         if (getStockNotificationPreference(requireActivity())
-            == StockNotificationStatus.NEVER_DEFINED.name
+            == StockNotificationStatus.NEVER_DEFINED
         ) {
             createDialogWantsNotification()
         }
@@ -83,16 +85,24 @@ class StoreListFragment : BaseFragment() {
                 context,
                 getString(R.string.notif_on), Toast.LENGTH_SHORT
             ).show()
-            storeViewModel.updateStockNotificationStatus(
+            val changed = StockNotificationHelper.setStockNotificationPreference(
                 requireActivity(),
+                StockNotificationStatus.NOTIF_ON
+            )
+            storeViewModel.updateStockNotificationStatus(
+                changed,
                 StockNotificationStatus.NOTIF_ON
             )
         }
 
         builder.setNegativeButton(getString(R.string.no)) { _, _ ->
             showDefineNotifLaterDialog()
-            storeViewModel.updateStockNotificationStatus(
+            val changed = StockNotificationHelper.setStockNotificationPreference(
                 requireActivity(),
+                StockNotificationStatus.NOTIF_OFF
+            )
+            storeViewModel.updateStockNotificationStatus(
+                changed,
                 StockNotificationStatus.NOTIF_OFF
             )
         }
@@ -127,7 +137,7 @@ class StoreListFragment : BaseFragment() {
             _viewModel.changeFavoriteStatus(storeItem)
         }, { storeItem ->
             val bundle = bundleOf("storeItem" to storeItem)
-            navController.navigate(R.id.to_storeItemDetails, bundle)
+            findNavController().navigate(R.id.to_storeItemDetails, bundle)
         })
 
         binding.storeRecyclerView.adapter = adapter
@@ -147,7 +157,7 @@ class StoreListFragment : BaseFragment() {
             }
             R.id.myFavoritesMenu -> _viewModel.updateFilter(StoreItemFilter.FAVORITES)
             R.id.allItemsMenu -> _viewModel.updateFilter(StoreItemFilter.ALL)
-            R.id.settingsMenu -> navController.navigate(StoreListFragmentDirections.toSettings())
+            R.id.settingsMenu -> findNavController().navigate(StoreListFragmentDirections.toSettings())
 
         }
         return super.onOptionsItemSelected(item)

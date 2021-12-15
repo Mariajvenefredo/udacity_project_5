@@ -19,13 +19,13 @@ interface OnlineStoreDao {
     fun insertStoreItem(storeItems: StoreItemDTO)
 
     @Query("SELECT * FROM physicalStores WHERE id == :id")
-    suspend fun getStore(id: Long ): PhysicalStoreDTO
+    suspend fun getStore(id: Long ): PhysicalStoreDTO?
 
     @Query("SELECT * FROM storeItems")
-    suspend fun getStoreItems(): List<StoreItemDTO>
+    suspend fun getStoreItems(): List<StoreItemDTO>?
 
     @Query("SELECT * FROM storeItems WHERE marked_as_favorite == :favorite")
-    suspend fun getFavoriteItems(favorite: Boolean = true): List<StoreItemDTO>
+    suspend fun getFavoriteItems(favorite: Boolean = true): List<StoreItemDTO>?
 
     @Query("SELECT * FROM physicalStores")
     suspend fun getPhysicalStores(): List<PhysicalStoreDTO>

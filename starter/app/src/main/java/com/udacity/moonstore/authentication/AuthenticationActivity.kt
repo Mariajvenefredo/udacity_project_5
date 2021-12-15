@@ -8,10 +8,6 @@ import androidx.lifecycle.Observer
 import com.udacity.moonstore.R
 import com.udacity.moonstore.storeItems.StoreActivity
 
-/**
- * This class should be the starting point of the app, It asks the users to sign in / register, and redirects the
- * signed in users to the RemindersActivity.
- */
 class AuthenticationActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<AuthenticationViewModel>()
@@ -21,7 +17,7 @@ class AuthenticationActivity : AppCompatActivity() {
 
         viewModel.authenticationState.observe(this, Observer { authState ->
             if (authState.equals(AuthenticationState.AUTHENTICATED)) {
-                startRemindersActivity()
+                startStoreActivity()
                 finish()
             }
         })
@@ -30,7 +26,7 @@ class AuthenticationActivity : AppCompatActivity() {
 
     }
 
-    private fun startRemindersActivity() {
+    private fun startStoreActivity() {
         val intent = Intent(this, StoreActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)

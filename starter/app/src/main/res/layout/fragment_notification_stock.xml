@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <!--Data item that holds the reminder details-->
         <variable
             name="store"
             type="com.udacity.moonstore.storeItems.models.Store" />

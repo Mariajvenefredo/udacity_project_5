@@ -10,6 +10,7 @@
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:background="@color/offWhite"
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
-                android:id="@+id/logo_image"
+                android:id="@+id/listLogoImage"
                 android:layout_width="180dp"
                 android:layout_height="110dp"
                 android:layout_marginTop="@dimen/margin_normal"
@@ -40,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/logo_image"
+                app:layout_constraintTop_toBottomOf="@id/listLogoImage"
                 app:layout_constraintVertical_bias="0.0"
                 app:spanCount="2" />
         </androidx.constraintlayout.widget.ConstraintLayout>

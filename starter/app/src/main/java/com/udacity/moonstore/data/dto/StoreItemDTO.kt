@@ -13,7 +13,6 @@ class StoreItemDTO(
     @ColumnInfo(name = "url") var url: String = "",
     @ColumnInfo(name = "price") var price: Double,
     @ColumnInfo(name = "marked_as_favorite") var markedAsFavorite: Boolean = false,
-    @ColumnInfo(name = "stock_notifications") val stockNotification: Boolean = false
 ) {
     fun toStoreDataItem(): StoreItem =
         StoreItem(id, name, url, price, markedAsFavorite)

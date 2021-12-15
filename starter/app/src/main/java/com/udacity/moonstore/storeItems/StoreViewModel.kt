@@ -4,13 +4,18 @@ import android.Manifest
 import android.annotation.TargetApi
 import android.app.Activity
 import android.app.Application
+import android.opengl.Visibility
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.data.StockNotificationHelper
 import com.udacity.moonstore.data.StockNotificationStatus
 import com.udacity.moonstore.data.StoreDataSource
+import com.udacity.moonstore.data.local.Result
+import com.udacity.moonstore.storeItems.models.Store
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.Subject
 import kotlinx.coroutines.launch
 
 class StoreViewModel(
@@ -18,25 +23,22 @@ class StoreViewModel(
     private val dataSource: StoreDataSource
 ) : AndroidViewModel(app) {
 
-    val stockNotificationStatus: MutableLiveData<StockNotificationStatus> = MutableLiveData()
     val availableStores: MutableLiveData<List<Store>> = MutableLiveData()
+    val stockNotificationStatus: Subject<StockNotificationStatus> =
+        BehaviorSubject.create()
 
     val runningQOrLater =
         android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
 
-    init {
-        viewModelScope.launch {
-            dataSource.addStoresToDatabase()
-            getStores()
-        }
-    }
-
-    private fun getStores() {
+    @VisibleForTesting
+    fun getStores() {
         val stores = mutableListOf<Store>()
         viewModelScope.launch {
             val storeList = dataSource.getStores()
-            stores.addAll(storeList)
-            availableStores.value = stores
+            if (storeList is Result.Success<List<Store>>) {
+                stores.addAll(storeList.data)
+                availableStores.value = stores
+            }
         }
     }
 
@@ -53,13 +55,18 @@ class StoreViewModel(
         )
 
     fun updateStockNotificationStatus(
-        activity: Activity,
+        changed: Boolean,
         status: StockNotificationStatus
     ) {
-        StockNotificationHelper.setStockNotificationPreference(
-            activity,
-            status
-        )
-        stockNotificationStatus.value = (status)
+        if (changed) {
+            stockNotificationStatus.onNext(status)
+        }
+    }
+
+    fun initializeComponents() {
+        viewModelScope.launch {
+            dataSource.addStoresToDatabase()
+            getStores()
+        }
     }
 }

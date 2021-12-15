@@ -4,7 +4,6 @@ import android.app.Application
 import com.udacity.moonstore.data.StoreDataSource
 import com.udacity.moonstore.data.local.StoreDatabase
 import com.udacity.moonstore.data.local.StoreRepository
-import com.udacity.moonstore.locationreminders.savereminder.SaveReminderViewModel
 import com.udacity.moonstore.storeItems.StoreViewModel
 import com.udacity.moonstore.storeItems.list.StoreListViewModel
 import org.koin.android.ext.koin.androidContext
@@ -36,15 +35,6 @@ class MyApp : Application() {
                 StoreViewModel(
                     this@MyApp,
                     get()
-                )
-            }
-
-            //Declare singleton definitions to be later injected using by inject()
-            single {
-                //This view model is declared singleton to be used across multiple fragments
-                SaveReminderViewModel(
-                    this@MyApp,
-                   // get()
                 )
             }
         }

@@ -1,4 +1,4 @@
-package com.udacity.moonstore.storeItems.notification
+package com.udacity.moonstore.notification
 
 import android.content.Context
 import android.content.Intent
@@ -10,9 +10,6 @@ import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.storeItems.models.StoreItem
 import java.io.Serializable
 
-/**
- * Activity that displays the reminder details after the user clicks on the notification
- */
 class ItemsInStockNotificationActivity : AppCompatActivity() {
 
     companion object {
@@ -47,6 +44,9 @@ class ItemsInStockNotificationActivity : AppCompatActivity() {
         val bundle = Bundle()
         bundle.putParcelableArray("storeItems", items.toTypedArray())
         bundle.putParcelable("store", store)
-        findNavController(R.id.nav_host_fragment_notification).setGraph(R.navigation.nav_graph_notification, bundle)
+        findNavController(R.id.nav_host_fragment_notification).setGraph(
+            R.navigation.nav_graph_notification,
+            bundle
+        )
     }
 }

@@ -32,9 +32,10 @@ import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.material.snackbar.Snackbar
 import com.udacity.moonstore.BuildConfig
 import com.udacity.moonstore.R
-import com.udacity.moonstore.storeItems.models.Store
+import com.udacity.moonstore.data.StockNotificationHelper
 import com.udacity.moonstore.data.StockNotificationStatus
-import com.udacity.moonstore.geofence.GeofenceBroadcastReceiver
+import com.udacity.moonstore.storeItems.models.Store
+import com.udacity.moonstore.notification.geofence.GeofenceBroadcastReceiver
 import kotlinx.android.synthetic.main.activity_store.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
@@ -50,6 +51,7 @@ class StoreActivity : AppCompatActivity() {
 
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var stores: List<Store>
+    private lateinit var notificationStatus: StockNotificationStatus
 
     private val geofencePendingIntent: PendingIntent by lazy {
         val intent = Intent(this, GeofenceBroadcastReceiver::class.java)
@@ -74,22 +76,42 @@ class StoreActivity : AppCompatActivity() {
                     warningLocationPermission()
                 }
             }
-
+        storeViewModel.initializeComponents()
         storeViewModel.availableStores.observeForever { storeList ->
             stores = storeList
         }
 
-        storeViewModel.stockNotificationStatus.observeForever { status ->
-            when (status) {
-                StockNotificationStatus.NOTIF_ON -> {
-                    checkPermissionsAndCreateGeofence()
+        storeViewModel.stockNotificationStatus
+            .subscribe({ status ->
+                notificationStatus = status
+
+                when (status) {
+                    StockNotificationStatus.NOTIF_ON -> {
+                        checkPermissionsAndCreateGeofence()
+                    }
+                    StockNotificationStatus.NOTIF_OFF -> {
+                        removeAllGeofences()
+                    }
                 }
-                StockNotificationStatus.NOTIF_OFF -> {
-                    //remove geofences
-                }
+            }, { throwable -> Log.e("MOONSTORE_APP", "Error " + throwable.message) })
+
+        setContentView(R.layout.activity_store)
+    }
+
+    private fun removeAllGeofences() {
+        if (!locationPermissionApproved()) {
+            return
+        }
+        geofencingClient.removeGeofences(geofencePendingIntent)?.run {
+            addOnSuccessListener {
+                Toast.makeText(applicationContext, "Removed with success", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            addOnFailureListener {
+                Toast.makeText(applicationContext, "Removed failed", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
-        setContentView(R.layout.activity_store)
     }
 
     private fun registerForActivityResult() = registerForActivityResult(
@@ -121,7 +143,12 @@ class StoreActivity : AppCompatActivity() {
                 })
             }
             .show()
-        storeViewModel.updateStockNotificationStatus(this, StockNotificationStatus.NOTIF_OFF)
+
+        val changed = StockNotificationHelper.setStockNotificationPreference(
+            this,
+            StockNotificationStatus.NOTIF_OFF
+        )
+        storeViewModel.updateStockNotificationStatus(changed, StockNotificationStatus.NOTIF_OFF)
     }
 
     private fun checkPermissionsAndCreateGeofence() {
@@ -156,15 +183,6 @@ class StoreActivity : AppCompatActivity() {
                 .build()
 
             geofencingClient.addGeofences(geofencingRequest, geofencePendingIntent)?.run {
-                addOnSuccessListener {
-                    geofencingRequest.geofences.forEach { geofence ->
-                        Toast.makeText(
-                            this@StoreActivity, "geofence ${geofence.requestId} added",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                }
                 addOnFailureListener {
                     Toast.makeText(
                         this@StoreActivity, R.string.geofence_not_added,
@@ -173,6 +191,8 @@ class StoreActivity : AppCompatActivity() {
                         .show()
                 }
             }
+        } else {
+            checkPermissionsAndCreateGeofence()
         }
     }
 
@@ -194,7 +214,10 @@ class StoreActivity : AppCompatActivity() {
                     resolutionForResult.launch(intentSenderRequest)
 
                 } catch (sendEx: IntentSender.SendIntentException) {
-                    Log.d("POI_APP", "Error geting location settings resolution: " + sendEx.message)
+                    Log.d(
+                        "MOONSTORE_APP",
+                        "Error getting location settings resolution: " + sendEx.message
+                    )
                 }
             } else {
                 Snackbar.make(
@@ -207,6 +230,12 @@ class StoreActivity : AppCompatActivity() {
         locationSettingsResponseTask.addOnCompleteListener {
             if (it.isSuccessful) {
                 createGeofence()
+            } else {
+                Toast.makeText(
+                    this@StoreActivity, getString(R.string.error_accessing_location),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
             }
         }
     }

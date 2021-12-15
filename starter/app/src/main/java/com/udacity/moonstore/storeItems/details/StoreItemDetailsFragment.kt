@@ -2,19 +2,19 @@ package com.udacity.moonstore.storeItems.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.animation.doOnEnd
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.fragment.findNavController
 import com.udacity.moonstore.R
 import com.udacity.moonstore.base.BaseFragment
 import com.udacity.moonstore.databinding.FragmentStoreItemDetailsBinding
 import com.udacity.moonstore.storeItems.FavoriteAnimationHelper
-import com.udacity.moonstore.storeItems.models.StoreItem
 import com.udacity.moonstore.storeItems.list.StoreListViewModel
-import com.udacity.moonstore.storeItems.models.Store
+import com.udacity.moonstore.storeItems.models.StoreItem
 import com.udacity.moonstore.utils.setDisplayHomeAsUpEnabled
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,7 +35,8 @@ class StoreItemDetailsFragment : BaseFragment() {
                 R.layout.fragment_store_item_details, container, false
             )
 
-        setDisplayHomeAsUpEnabled(false)
+        setHasOptionsMenu(true)
+        setDisplayHomeAsUpEnabled(true)
         binding.lifecycleOwner = this
 
         return binding.root
@@ -49,10 +50,10 @@ class StoreItemDetailsFragment : BaseFragment() {
         _viewModel.getStoresWithStock(storeItem)
 
         _viewModel.storesWithStock.observe(viewLifecycleOwner, { stores ->
-            binding.storesWithStock.text = stores
+            binding.stores = stores.toTypedArray()
         })
 
-        binding.favoriteIcon.setOnClickListener { view ->
+        binding.storeItemDetailsFavoriteIcon.setOnClickListener { view ->
             val animator = FavoriteAnimationHelper.createFavoriteAnimator(
                 view as ImageView,
                 storeItem.markedAsFavorite
@@ -62,6 +63,16 @@ class StoreItemDetailsFragment : BaseFragment() {
                 _viewModel.changeFavoriteStatus(storeItem)
             }
             animator.start()
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                findNavController().popBackStack()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

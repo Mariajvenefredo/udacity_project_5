@@ -8,11 +8,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.udacity.moonstore.R
+import com.udacity.moonstore.data.StockNotificationHelper
 import com.udacity.moonstore.data.StockNotificationHelper.getStockNotificationPreference
 import com.udacity.moonstore.data.StockNotificationStatus
 import com.udacity.moonstore.databinding.FragmentSettingsBinding
 import com.udacity.moonstore.storeItems.StoreActivity
 import com.udacity.moonstore.storeItems.StoreViewModel
+import com.udacity.moonstore.utils.setDisplayHomeAsUpEnabled
 
 class SettingsFragment : Fragment() {
 
@@ -28,8 +30,17 @@ class SettingsFragment : Fragment() {
                 inflater,
                 R.layout.fragment_settings, container, false
             )
-        viewModel =
-            ViewModelProvider(requireActivity() as StoreActivity)[StoreViewModel::class.java]
+
+        if (requireActivity() is StoreActivity) {
+            viewModel =
+                ViewModelProvider(requireActivity() as StoreActivity)[StoreViewModel::class.java]
+
+            viewModel.stockNotificationStatus.subscribe { status ->
+                binding.settingsItem.isChecked = status == StockNotificationStatus.NOTIF_ON
+            }
+        }
+
+        setDisplayHomeAsUpEnabled(true)
 
         return binding.root
     }
@@ -39,23 +50,28 @@ class SettingsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.settingsItem.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                viewModel.updateStockNotificationStatus(
+                val changed = StockNotificationHelper.setStockNotificationPreference(
                     requireActivity(),
                     StockNotificationStatus.NOTIF_ON
                 )
-            } else {
                 viewModel.updateStockNotificationStatus(
+                    changed,
+                    StockNotificationStatus.NOTIF_ON
+                )
+            } else {
+                val changed = StockNotificationHelper.setStockNotificationPreference(
                     requireActivity(),
+                    StockNotificationStatus.NOTIF_OFF
+                )
+                viewModel.updateStockNotificationStatus(
+                    changed,
                     StockNotificationStatus.NOTIF_OFF
                 )
             }
         }
-        viewModel.stockNotificationStatus.observe(viewLifecycleOwner, { status ->
-            binding.settingsItem.isChecked = status == StockNotificationStatus.NOTIF_ON
-        })
 
         val notifStatus = getStockNotificationPreference(requireActivity())
-        if (notifStatus == StockNotificationStatus.NOTIF_ON.name) {
+        if (notifStatus == StockNotificationStatus.NOTIF_ON) {
             binding.notificationStatus = true
         }
     }

@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.udacity.moonstore.R
 import com.udacity.moonstore.storeItems.list.StoreListAdapter
+import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.storeItems.models.StoreItem
 
 @BindingAdapter("favoriteStatusImage")
@@ -45,4 +46,13 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<StoreItem>?) {
 fun bindPrice(textView: TextView, price: Double?) {
     val priceString = price.toString()
     textView.text = priceString + "€"
+}
+
+@BindingAdapter("storeStockString")
+fun bindStoreStockString(textView: TextView, stores: Array<Store>?) {
+    val storeList = mutableListOf<String>()
+    stores?.map { store ->
+        storeList.add(store.name)
+    }
+    textView.text = storeList.joinToString("\n-", "-")
 }

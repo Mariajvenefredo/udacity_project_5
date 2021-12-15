@@ -1,4 +1,4 @@
-package com.udacity.moonstore.geofence
+package com.udacity.moonstore.notification.geofence
 
 import android.content.Context
 import android.content.Intent
@@ -7,9 +7,10 @@ import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 import com.udacity.moonstore.api.StoreItemFilter
 import com.udacity.moonstore.data.StoreDataSource
+import com.udacity.moonstore.data.local.Result
+import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.storeItems.models.StoreItem
-import com.udacity.moonstore.utils.sendNotification
-import kotlinx.coroutines.CoroutineDispatcher
+import com.udacity.moonstore.notification.sendNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,9 +19,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import kotlin.coroutines.CoroutineContext
 
-class GeofenceJobIntentService(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
-) :
+class GeofenceJobIntentService :
     JobIntentService(), CoroutineScope {
 
     private var coroutineJob: Job = Job()
@@ -56,7 +55,10 @@ class GeofenceJobIntentService(
                 if (storeId != null) {
                     CoroutineScope(coroutineContext).launch {
                         val itemsInStock = requestItemsInStock(storeId)
-                        validateAndSendNotification(storeId, itemsInStock)
+
+                        if (itemsInStock.count() > 0) {
+                            validateAndSendNotification(storeId, itemsInStock)
+                        }
                     }
                 }
             }
@@ -67,11 +69,13 @@ class GeofenceJobIntentService(
         val itemsInStock = mutableListOf<StoreItem>()
 
         val favorites = storeRepository.getStoreItems(StoreItemFilter.FAVORITES)
-        favorites.forEach { storeDataItem ->
-            val hasStock =
-                storeRepository.getStoreStockForItem(storeId, storeDataItem.id.toString())
-            if (hasStock) {
-                itemsInStock.add(storeDataItem)
+        if (favorites is Result.Success<List<StoreItem>>) {
+            favorites.data.forEach { storeDataItem ->
+                val hasStock =
+                    storeRepository.getStoreStockForItem(storeId, storeDataItem.id.toString())
+                if (hasStock is Result.Success<Boolean>) {
+                    if (hasStock.data) itemsInStock.add(storeDataItem)
+                }
             }
         }
         return itemsInStock
@@ -82,10 +86,10 @@ class GeofenceJobIntentService(
         CoroutineScope(coroutineContext).launch(SupervisorJob()) {
             val result = storeRepository.getStore(storeId)
 
-            if (result != null) {//is Result.Success<Store>) {
+            if (result is Result.Success<Store>) {
                 sendNotification(
                     this@GeofenceJobIntentService,
-                    result,
+                    result.data,
                     itemsInStock
                 )
             }

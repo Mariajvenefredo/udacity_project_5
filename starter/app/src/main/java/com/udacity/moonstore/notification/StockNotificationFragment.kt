@@ -1,4 +1,4 @@
-package com.udacity.moonstore.storeItems.notification
+package com.udacity.moonstore.notification
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.udacity.moonstore.R
 import com.udacity.moonstore.databinding.FragmentNotificationStockBinding
+import com.udacity.moonstore.utils.setDisplayHomeAsUpEnabled
 
 class StockNotificationFragment : Fragment() {
 
@@ -26,6 +27,8 @@ class StockNotificationFragment : Fragment() {
                 inflater,
                 R.layout.fragment_notification_stock, container, false
             )
+
+        setDisplayHomeAsUpEnabled(false)
 
         return binding.root
     }

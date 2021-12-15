@@ -6,11 +6,11 @@
 
     <activity
         android:id="@+id/itemsInStockNotificationActivity"
-        android:name="com.udacity.moonstore.storeItems.notification.ItemsInStockNotificationActivity"
+        android:name="com.udacity.moonstore.notification.ItemsInStockNotificationActivity"
         android:label="ItemsInStockNotificationActivity" />
     <fragment
         android:id="@+id/stockNotificationFragment"
-        android:name="com.udacity.moonstore.storeItems.notification.StockNotificationFragment"
+        android:name="com.udacity.moonstore.notification.StockNotificationFragment"
         android:label="StockNotificationFragment">
         <argument
             android:name="storeItems"
@@ -26,5 +26,8 @@
         android:id="@+id/storeItemDetailsFragmentNotification"
         android:name="com.udacity.moonstore.storeItems.details.StoreItemDetailsFragment"
         android:label="StoreItemDetailsFragment">
+        <action
+            android:id="@+id/action_storeItemDetailsFragmentNotification_to_stockNotificationFragment"
+            app:destination="@id/stockNotificationFragment" />
     </fragment>
 </navigation>

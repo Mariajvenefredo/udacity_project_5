@@ -8,9 +8,6 @@ import com.udacity.moonstore.data.dao.OnlineStoreDao
 import com.udacity.moonstore.data.dto.PhysicalStoreDTO
 import com.udacity.moonstore.data.dto.StoreItemDTO
 
-/**
- * The Room Database that contains the reminders table.
- */
 @Database(
     entities = [StoreItemDTO::class, PhysicalStoreDTO::class],
     version = 1,

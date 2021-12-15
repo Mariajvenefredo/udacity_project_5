@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.udacity.moonstore.api.StoreItemFilter
 import com.udacity.moonstore.base.BaseViewModel
 import com.udacity.moonstore.data.StoreDataSource
+import com.udacity.moonstore.data.local.Result
+import com.udacity.moonstore.storeItems.models.Store
 import com.udacity.moonstore.storeItems.models.StoreItem
 import kotlinx.coroutines.launch
 
@@ -15,7 +17,8 @@ class StoreListViewModel(
 ) : BaseViewModel(app) {
 
     val storeItemList = MutableLiveData<List<StoreItem>>()
-    val storesWithStock = MutableLiveData<String>()
+    val storesWithStock = MutableLiveData<List<Store>>()
+
     private val filter = MutableLiveData(StoreItemFilter.ALL)
 
     init {
@@ -30,52 +33,28 @@ class StoreListViewModel(
         viewModelScope.launch {
 
             val result = filter.value?.let { dataSource.getStoreItems(it) }
-            if (result != null) {
-                if (result.isNotEmpty()) {
-                    storeItemList.value = result!!
-                    showLoading.value = false
-                }
+
+            if (result is Result.Success<List<StoreItem>>) {
+                storeItemList.value = result.data
+                showLoading.value = false
+            } else if (result is Result.Error) {
+                showSnackBar.value = result.message
             }
-
-/*            when (result) {
-                is Result.Success<*> -> {
-                    val dataList = ArrayList<StoreDataItem>()
-                    dataList.addAll((result.data as List<FavoriteItemDTO>).map { reminder ->
-                        //map the reminder data from the DB to the be ready to be displayed on the UI
-                        StoreDataItem(
-                            reminder.title,
-                            reminder.description,
-                            reminder.location,
-                            reminder.latitude,
-                            reminder.longitude,
-                            reminder.id
-                        )
-                    })
-                    storeItemList.value = dataList
-                }
-                is Result.Error ->
-                    showSnackBar.value = result.message
-            }*/
-
-            //check if no data has to be shown
-            //invalidateShowNoData()
+            invalidateShowNoData()
         }
     }
 
-    /**
-     * Inform the user that there's not any data if the remindersList is empty
-     */
     private fun invalidateShowNoData() {
         showNoData.value = storeItemList.value == null || storeItemList.value!!.isEmpty()
     }
 
     fun getStoresWithStock(storeItem: StoreItem) {
-        val storeList = mutableListOf<String>()
         viewModelScope.launch {
-            dataSource.getStoresWithStockForItem(storeItem).map { store ->
-                storeList.add(store.name)
+            val stores = dataSource.getStoresWithStockForItem(storeItem)
+
+            if (stores is Result.Success<List<Store>>) {
+                storesWithStock.value = stores.data
             }
-            storesWithStock.value = storeList.joinToString("\n-", "-")
         }
     }
 

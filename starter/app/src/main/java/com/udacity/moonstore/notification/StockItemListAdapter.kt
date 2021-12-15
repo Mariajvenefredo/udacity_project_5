@@ -1,4 +1,4 @@
-package com.udacity.moonstore.storeItems.notification
+package com.udacity.moonstore.notification
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
